@@ -1,0 +1,83 @@
+<html>
+		<head>
+			<title>Cloooooud</title>
+                        <link rel="shortcut icon" href="css\ikonka.png" type="image/jpg">
+			<meta charset="utf-8">
+			<link rel="stylesheet" href="css\style.css">
+			<script src = "scripts/jquery-3.6.0.js"></script>	
+			<script>
+                            $.get("/users/username").done(function (data){
+                            window.user_name = data;
+                            $("#username").append(data);
+                             });
+                        </script>
+		</head>
+<body>
+<div>
+	<h1>Clooooooooud</h1>
+
+
+<div id = "username"></div>
+
+<form id = "upload" action = "/users/addfiles" method = "post" enctype = "multipart/form-data">
+      <input name ="file" type = "file" id = "file">
+      <button id = "uploadFile" type = "submit">ImportFile</button>
+</form>
+
+<div id = "results"></div>
+</div>
+
+</body>
+
+<script>
+    
+    $("#upload").submit(function(event){
+        event.preventDefault();
+        var form = $(this);
+        var formdata  = new FormData(form[0]);
+        console.log(window.user_name);
+        
+        $.ajax({
+    type: 'POST',
+    url: '/users/addfiles/'+ window.user_name,
+    data:  formdata ? formdata : form.serialize(),
+    success: console.log(""),
+    contentType: false,
+    processData: false
+    })
+    buildTable();
+});
+
+
+
+$(document).ready(()=>{
+    buildTable();
+})
+
+
+
+ function buildTable(){
+$.ajax({
+    type: 'GET',
+    url: '/users/getfiles',
+    data: window.user_name,
+    success: console.log(""),
+    contentType: false,
+    processData: false
+}).done(function(data){
+    lengthl = data.length;
+    if (lengthl >0){
+    for (var i = 0; i < lengthl; i++) {
+        $("#results").append("<tr><td><h3>NameOfFile</h3></td><td><h3>Owner</h3></td><td><h3>Path To File</h3></td>")
+        for (var i = 0; i<lengthl; i++) {  
+            $("#results").append("<tr><td>" + data[i].name + "</td><td>" + data[i].owner + "</td><td>" + data[i].pathToFile + "</td>");
+        }
+        $("#results").css("text-align", "center")
+            }
+        }
+    })
+};
+</script>
+
+
+</html>
