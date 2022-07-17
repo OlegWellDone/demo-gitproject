@@ -6,18 +6,10 @@
 package com.mycompany.projectSpring.controller;
 
 import com.mycompany.projectSpring.domain.FileInfo;
-import com.mycompany.projectSpring.domain.User;
 import com.mycompany.projectSpring.service.UserService;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,12 +39,15 @@ public class UserController {
     @RequestMapping("/getfiles")
     public Collection <FileInfo> getFiles(String username){
         files.addAll(userService.findFiles(username));
+        if (files != null)
         return files;
+        else 
+            return null;
     }
     
     @PostMapping
-    @RequestMapping("/addfiles/{username}")
-    public void addFile(@PathVariable String username, MultipartFile file){
+    @RequestMapping("/upload/{username}")
+    public void addFile(@PathVariable("username") String username, MultipartFile file){
         userService.createFile(username, file);//сохранять файл в отдельной папке, в бд отправлять путь и имя файла прикрепленного к пользователю
         
     }

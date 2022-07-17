@@ -3,7 +3,7 @@
 spring:
     datasource:
         url: jdbc:h2:mem:appdb
-        username : sas
+        username : sasa
         password: password
         driverClassName: org.h2.Driver
     h2:

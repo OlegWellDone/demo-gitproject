@@ -8,11 +8,6 @@ package com.mycompany.projectSpring.repository;
 import com.mycompany.projectSpring.domain.FileInfo;
 import com.mycompany.projectSpring.domain.User;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
-import java.util.Vector;
-import java.util.function.Function;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -25,7 +20,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserJdbcRepository implements UserRepository {
     
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
     
     
     @Autowired

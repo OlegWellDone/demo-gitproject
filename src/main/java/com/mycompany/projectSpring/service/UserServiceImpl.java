@@ -13,14 +13,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,8 +41,9 @@ public class UserServiceImpl implements UserService {
     public void createFile(String username, MultipartFile file) {
         String pathToFile;
         try {
-            file.transferTo(new File("/"+ username + "/files/" + file.getName()));
-            pathToFile = "/" + username + "/files/" + file.getName();
+            String name = file.getOriginalFilename();
+            file.transferTo(new File("C://Documents/NetBeansProject/"+ username + "/files/" + name));
+            pathToFile = "C://Documents/NetBeansProject/" + username + "/files/" + name;
             userRepository.save(username, pathToFile, file.getName());
         } catch (IOException ex) {
             Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
